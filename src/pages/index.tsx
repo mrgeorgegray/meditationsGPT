@@ -54,24 +54,25 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <h1>Meditations GPT</h1>
+      <div className="overflow-hidden w-full h-full relative">
+        <div className="flex h-full flex-1 flex-col">
+          <main className="relative h-full w-full transition-width flex flex-col overflow-hidden items-stretch flex-1">
+            <FileQandA files={files} />
 
-        <hr />
-        <FileQandA files={files} />
+            {/* <hr />
+            <h2>Upload</h2>
+            <FileUpload
+              handleSetFiles={setFiles}
+              maxNumFiles={75}
+              maxFileSizeMB={30}
+            />
 
-        {/* <hr />
-        <h2>Upload</h2>
-        <FileUpload
-          handleSetFiles={setFiles}
-          maxNumFiles={75}
-          maxFileSizeMB={30}
-        />
-
-        <hr />
-        <h2>Files: {files.length}</h2>
-        <FileList files={files} /> */}
-      </main>
+            <hr />
+            <h2>Files: {files.length}</h2>
+            <FileList files={files} /> */}
+          </main>
+        </div>
+      </div>
     </>
   );
 }
