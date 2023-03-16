@@ -8,12 +8,6 @@ type Data = {
   books: FileLite[];
 };
 
-export const config = {
-  api: {
-    responseLimit: false,
-  },
-};
-
 export default async function handler(
   _req: NextApiRequest,
   res: NextApiResponse<Data>
