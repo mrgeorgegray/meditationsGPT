@@ -6,6 +6,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 
 import { FileChunk, FileLite } from "@/types/file";
 import FileList from "@/components/FileList";
+import NoSsr from "@/components/NoSsr";
 import marcusAureliusImg from "../../public/marcus_aurelius_sketch.jpg";
 import questionMarkImg from "../../public/question_mark_72.png";
 
@@ -149,7 +150,7 @@ function FileQandA(props: FileQandProps) {
   const isEmpty = !hasAskedQuestion && history.length === 0;
 
   return (
-    <>
+    <NoSsr>
       <div className="flex-1 overflow-hidden">
         <ScrollToBottom className="h-full">
           <div className="relative h-full">
@@ -270,6 +271,7 @@ function FileQandA(props: FileQandProps) {
                   height: "24px",
                   overflowY: "hidden",
                   maxHeight: "300px",
+                  outline: "none",
                 }}
                 onChange={handleChangeQuestion}
                 onKeyDown={handleKeyDownQuestion}
@@ -304,7 +306,7 @@ function FileQandA(props: FileQandProps) {
           </div>
         </form>
       </div>
-    </>
+    </NoSsr>
   );
 }
 
