@@ -147,7 +147,6 @@ function FileQandA(props: FileQandProps) {
   );
 
   const isEmpty = !hasAskedQuestion && history.length === 0;
-  console.log("isEmpty", isEmpty);
 
   return (
     <>
