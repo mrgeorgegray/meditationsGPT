@@ -273,7 +273,7 @@ function FileQandA(props: FileQandProps) {
               <textarea
                 className="m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 md:pl-0"
                 placeholder={
-                  answerDone ? "Ask Marcus a question..." : "Answering..."
+                  answerLoading ? "Answering..." : "Ask Marcus a question..."
                 }
                 name="search"
                 ref={questionRef}
