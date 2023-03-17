@@ -9,6 +9,7 @@ import FileList from "@/components/FileList";
 import NoSsr from "@/components/NoSsr";
 import marcusAureliusImg from "../../public/marcus_aurelius_sketch.jpg";
 import questionMarkImg from "../../public/question_mark_72.png";
+import { Loader } from "./Loader";
 
 type FileQandProps = {
   files: FileLite[];
@@ -215,6 +216,13 @@ function FileQandA(props: FileQandProps) {
                   </div>
                 </div>
               ))}
+              {hasAskedQuestion && !answer && (
+                <div
+                  className={`group w-full text-gray-800 border-b border-black/10 bg-gray-50 py-4`}
+                >
+                  <Loader height="50px" />
+                </div>
+              )}
               {hasAskedQuestion && answer && (
                 <div
                   className={`group w-full text-gray-800 border-b border-black/10 bg-gray-50`}
@@ -264,7 +272,9 @@ function FileQandA(props: FileQandProps) {
             <div className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)]">
               <textarea
                 className="m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 md:pl-0"
-                placeholder="Ask Marcus a question..."
+                placeholder={
+                  answerDone ? "Ask Marcus a question..." : "Answering..."
+                }
                 name="search"
                 ref={questionRef}
                 style={{
@@ -283,7 +293,12 @@ function FileQandA(props: FileQandProps) {
                 disabled={answerLoading}
               >
                 {answerLoading ? (
-                  "Answering..."
+                  <Loader
+                    height="24px"
+                    width="24px"
+                    top="2px"
+                    position="relative"
+                  />
                 ) : (
                   <svg
                     stroke="currentColor"
