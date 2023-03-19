@@ -7,6 +7,7 @@ import FileQandA from "@/components/FileQandA";
 import { Loader } from "@/components/Loader";
 import FileList from "@/components/FileList";
 import FileUpload from "@/components/FileUpload";
+import Aside from "@/components/Aside";
 
 export interface HomePageProps {
   books: FileLite[];
@@ -49,7 +50,7 @@ export default function Home() {
         />
       </Head>
       <div className="overflow-hidden w-full h-full relative">
-        <div className="flex h-full flex-1 flex-col">
+        <div className="flex h-full flex-1 flex-col md:pl-[260px]">
           <main className="relative h-full w-full transition-width flex flex-col overflow-hidden items-stretch flex-1">
             {isLoading && (
               <div className="h-full mt-6 sm:mt-[20vh]">
@@ -79,6 +80,8 @@ export default function Home() {
             )}
           </main>
         </div>
+
+        <Aside />
       </div>
     </>
   );

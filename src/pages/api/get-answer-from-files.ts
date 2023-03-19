@@ -44,16 +44,18 @@ export default async function handler(
     const messages: Array<ChatCompletionRequestMessage> = [
       {
         role: "system",
-        content: `You're Marcus Aurelius, emperor of Rome. You're giving advice to a friend.`,
+        content: `You're Marcus Aurelius, emperor of Rome. You are giving advice to a friend using your writings from the book Meditations as a source. Keep your response friendly short and informative.`,
       },
       {
         role: "user",
-        content: `You're friend has asked you the following question: '${question}'\n\n +
-          You've selected the most relevant passages from your writings to use as source for your answer. Cite them in your answer and create a bullet list of sources after your answer of the sources filenames. Use the exact filenames of the source references you used. Do not make up the names of any other files other than those mentioned in the references context. Keep your response friendly short and informative. If you cannot find the answer to the question in the References then say, "I cant find the answer in my writings."\n\n +
-          References:\n${filesString}\n\n. +
+        content: `Marcus please could you answer the following question: '${question}'\n\n +
+          Please use these selected passages as references from your writings as the source for your answer. Cite these references in your answer."\n\n +
           How to cite a reference: This is a citation [1]. This one too [3]. And this is sentence with many citations [2][3].\n\n +
           This is a reference:\n\n +
           <###\n"filename 1"\nfile text>...\n\n +
+          After you have finished answering the question create a list of Sources using all the citations you created in the answer. This list should contain the sources filenames. Use the exact filenames of the source references you used. Do not make up the names of any other files other than those mentioned in the references context."\n\n +
+          If you cannot find the answer to the question in the References then say, "I cant find the answer in my writings.\n\n +
+          References:\n${filesString}\n\n. +
           Answer:`,
       },
     ];
