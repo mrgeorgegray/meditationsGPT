@@ -6,17 +6,17 @@ import ScrollToBottom from "react-scroll-to-bottom";
 
 import { FileChunk, FileLite } from "@/types/file";
 import NoSsr from "@/components/NoSsr";
+import Loader from "@/components/Loader";
+import EmptyState from "@/components/EmptyState";
+import HistoryItem, { HistoryItemProps } from "@/components/HistoryItem";
+import SearchInput from "@/components/SearchInput";
 import marcusAureliusImg from "../../public/marcus_aurelius_sketch.jpg";
-import { Loader } from "./Loader";
-import EmptyState from "./EmptyState";
-import HistoryItem, { HistoryItemProps } from "./HistoryItem";
-import SearchInput from "./SearchInput";
 
-type FileQandProps = {
+type App = {
   files: FileLite[];
 };
 
-function FileQandA(props: FileQandProps) {
+function App(props: App) {
   const [hasAskedQuestion, setHasAskedQuestion] = React.useState(false);
   const [answerError, setAnswerError] = React.useState("");
   const [answerLoading, setAnswerLoading] = React.useState<boolean>(false);
@@ -97,7 +97,12 @@ function FileQandA(props: FileQandProps) {
           fileChunks: results,
         }),
       });
-      const reader = res.body!.getReader();
+      const reader = res.body?.getReader();
+
+      if (!reader) {
+        setAnswerError("Sorry, something went wrong!");
+        return;
+      }
 
       // eslint-disable-next-line no-constant-condition
       while (true) {
@@ -159,7 +164,6 @@ function FileQandA(props: FileQandProps) {
                         </ReactMarkdown>
                       </div>
                     </div>
-                    {/* <FileList files={props.files} title="Sources" /> */}
                   </div>
                 </div>
               )}
@@ -182,4 +186,4 @@ function FileQandA(props: FileQandProps) {
   );
 }
 
-export default React.memo(FileQandA);
+export default React.memo(App);

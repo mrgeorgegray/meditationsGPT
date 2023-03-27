@@ -6,7 +6,7 @@ import marcusAureliusImg from "../../public/marcus_aurelius_sketch.jpg";
 function EmptyState() {
   return (
     <div className="text-center max-w-lg">
-      <h1 className="font-display uppercase tracking-tight text-5xl text-center mt-6 sm:mt-[20vh] ml-auto mr-auto mb-2 sm:mb-4 flex gap-2 items-center justify-center">
+      <h1 className="font-display uppercase tracking-tight text-5xl text-center mt-6 sm:mt-[20vh] ml-auto mr-auto mb-2 sm:mb-4 flex gap-2 items-center justify-center text-gray-800">
         Meditations
       </h1>
       <Image

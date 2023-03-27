@@ -1,7 +1,7 @@
 import React from "react";
 
 import { FileLite } from "@/types/file";
-import FileItem from "@/components/FileItem";
+import FileItem from "@/components/UploadTools/FileItem";
 
 type FileListProps = {
   files: FileLite[];

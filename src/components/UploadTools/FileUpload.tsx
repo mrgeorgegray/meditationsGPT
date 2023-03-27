@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import compact from "lodash/compact";
 
-import { FileLite } from "../types/file";
+import { FileLite } from "@/types/file";
 
 type FileUploadProps = {
   handleSetFiles: React.Dispatch<React.SetStateAction<FileLite[]>>;

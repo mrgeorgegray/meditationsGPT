@@ -3,10 +3,8 @@ import React from "react";
 import axios from "axios";
 
 import { FileLite } from "@/types/file";
-import FileQandA from "@/components/FileQandA";
-import { Loader } from "@/components/Loader";
-import FileList from "@/components/FileList";
-import FileUpload from "@/components/FileUpload";
+import App from "@/components/App";
+import Loader from "@/components/Loader";
 import Aside from "@/components/Aside";
 
 export interface HomePageProps {
@@ -62,22 +60,7 @@ export default function Home() {
                 Error, something went wrong.
               </p>
             )}
-            {!isLoading && !isError && (
-              <>
-                <FileQandA files={files} />
-                {/* <hr />
-            <h2>Upload</h2>
-            <FileUpload
-              handleSetFiles={setFiles}
-              maxNumFiles={75}
-              maxFileSizeMB={30}
-            />
-
-            <hr />
-            <h2>Files: {files.length}</h2>
-            <FileList files={files} /> */}
-              </>
-            )}
+            {!isLoading && !isError && <App files={files} />}
           </main>
         </div>
 
