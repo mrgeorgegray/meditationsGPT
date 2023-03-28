@@ -22,7 +22,9 @@ These materials were the inspiration for this repo.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-First, run the development server:
+To use this locally, create an OpenAI account and get your own [API key from here](https://platform.openai.com/account/api-keys). Then copy `.env.local.example` to `.env.local` and add your own private key there.
+
+To run the development server:
 
 ```bash
 yarn dev
