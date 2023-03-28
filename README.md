@@ -1,4 +1,4 @@
-# [Meditations GPT](meditations-gpt)
+# Meditations GPT
 
 A quick experiment with the OpenAI API to create a basic chat interface around Marcus Aurelius Meditations.
 
