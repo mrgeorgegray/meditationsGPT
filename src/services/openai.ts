@@ -66,9 +66,9 @@ export async function* chatCompletionStream({
 }
 
 export async function embedding({
-  input,
+  input = [],
   model = "text-embedding-ada-002",
-}: OpenAIApi.Embeddings.EmbeddingCreateParams): Promise<number[][]> {
+}: Partial<OpenAIApi.Embeddings.EmbeddingCreateParams>): Promise<number[][]> {
   const embedding = await openai.embeddings.create({
     model,
     input,
