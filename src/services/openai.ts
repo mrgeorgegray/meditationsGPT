@@ -1,124 +1,38 @@
-import { IncomingMessage } from "http";
-import {
-  Configuration,
-  CreateChatCompletionRequest,
-  CreateChatCompletionResponse,
-  CreateCompletionRequest,
-  CreateCompletionResponse,
-  OpenAIApi,
-} from "openai";
+import OpenAIApi from "openai";
 
 if (!process.env.API_KEY_OPENAI) {
   throw new Error("Missing API_KEY_OPENAI environment variable");
 }
 
-const configuration = new Configuration({
+export const openai = new OpenAIApi({
   apiKey: process.env.API_KEY_OPENAI,
 });
-export const openai = new OpenAIApi(configuration);
-
-type CompletionOptions = Partial<CreateCompletionRequest> & {
-  prompt: string;
-  fallback?: string;
-};
-
-type CreateChatCompletionOptions = Partial<CreateChatCompletionRequest> & {
-  fallback?: string;
-};
-
-type EmbeddingOptions = {
-  input: string | string[];
-  model?: string;
-};
-
-export async function completion({
-  prompt,
-  fallback,
-  max_tokens = 800,
-  temperature = 0,
-  model = "text-davinci-003",
-  ...otherOptions
-}: CompletionOptions) {
-  try {
-    const result = await openai.createCompletion({
-      prompt,
-      max_tokens,
-      temperature,
-      model,
-      ...otherOptions,
-    });
-
-    if (!result.data.choices[0].text) {
-      throw new Error("No text returned from the completions endpoint.");
-    }
-    return result.data.choices[0].text;
-  } catch (error) {
-    if (fallback) return fallback;
-    else throw error;
-  }
-}
-
-export async function* completionStream({
-  prompt,
-  fallback,
-  max_tokens = 800,
-  temperature = 0,
-  model = "text-davinci-003",
-}: CompletionOptions) {
-  try {
-    const result = await openai.createCompletion(
-      {
-        prompt,
-        max_tokens,
-        temperature,
-        model,
-        stream: true,
-      },
-      { responseType: "stream" }
-    );
-
-    const stream = result.data as any as IncomingMessage;
-
-    for await (const chunk of stream) {
-      const line = chunk.toString().trim();
-      const message = line.split("data: ")[1];
-
-      if (message === "[DONE]") {
-        break;
-      }
-
-      const data = JSON.parse(message) as CreateCompletionResponse;
-
-      yield data.choices[0].text;
-    }
-  } catch (error) {
-    console.log("error", error);
-    if (fallback) yield fallback;
-    else throw error;
-  }
-}
 
 export async function chatCompletion({
   messages = [],
-  fallback,
   max_tokens = 800,
   temperature = 0,
-  model = "gpt-3.5-turbo-0301",
+  fallback,
+  model = "gpt-3.5-turbo-0125",
   ...otherOptions
-}: CreateChatCompletionOptions) {
+}: { fallback?: string } & Partial<OpenAIApi.Chat.ChatCompletionCreateParams>) {
   try {
-    const result = await openai.createChatCompletion({
+    const completion = await openai.chat.completions.create({
+      model,
       messages,
       max_tokens,
       temperature,
-      model,
       ...otherOptions,
     });
 
-    if (!result.data.choices[0].message) {
+    if (
+      !(completion as OpenAIApi.Chat.Completions.ChatCompletion).choices[0]
+        .message?.content
+    ) {
       throw new Error("No text returned from the completions endpoint.");
     }
-    return result.data.choices[0].message?.content;
+    return (completion as OpenAIApi.Chat.Completions.ChatCompletion).choices[0]
+      .message.content;
   } catch (error) {
     if (fallback) return fallback;
     else throw error;
@@ -130,32 +44,19 @@ export async function* chatCompletionStream({
   fallback,
   max_tokens = 1600,
   temperature = 0,
-  model = "gpt-3.5-turbo-0301",
-}: CreateChatCompletionOptions) {
+  model = "gpt-3.5-turbo-0125",
+}: { fallback?: string } & Partial<OpenAIApi.Chat.ChatCompletionCreateParams>) {
   try {
-    const result = await openai.createChatCompletion(
-      {
-        messages,
-        max_tokens,
-        temperature,
-        model,
-        stream: true,
-      },
-      { responseType: "stream" }
-    );
+    const stream = await openai.chat.completions.create({
+      model,
+      messages,
+      max_tokens,
+      temperature,
+      stream: true,
+    });
 
-    const stream = result.data as any as IncomingMessage;
-
-    for await (const chunk of stream) {
-      const line = chunk.toString().trim();
-      const message = line.split("data: ")[1];
-
-      if (message === "[DONE]") {
-        break;
-      }
-
-      const data = JSON.parse(message) as CreateChatCompletionResponse;
-      yield (data.choices[0] as any).delta?.content || "";
+    for await (const part of stream) {
+      yield part.choices[0]?.delta?.content || "";
     }
   } catch (error) {
     console.log("error", error);
@@ -167,16 +68,16 @@ export async function* chatCompletionStream({
 export async function embedding({
   input,
   model = "text-embedding-ada-002",
-}: EmbeddingOptions): Promise<number[][]> {
-  const result = await openai.createEmbedding({
+}: OpenAIApi.Embeddings.EmbeddingCreateParams): Promise<number[][]> {
+  const embedding = await openai.embeddings.create({
     model,
     input,
   });
 
-  if (!result.data.data[0].embedding) {
+  if (!embedding.data[0].embedding) {
     throw new Error("No embedding returned from the completions endpoint");
   }
 
   // Otherwise, return the embeddings
-  return result.data.data.map((d) => d.embedding);
+  return embedding.data.map((d) => d.embedding);
 }

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { FileChunk } from "@/types/file";
 import { chatCompletionStream } from "@/services/openai";
-import { ChatCompletionRequestMessage } from "openai";
+import { ChatCompletionMessageParam } from "openai/resources";
 
 type Data = {
   answer?: string;
@@ -41,7 +41,7 @@ export default async function handler(
       .join("\n")
       .slice(0, MAX_FILES_LENGTH);
 
-    const messages: Array<ChatCompletionRequestMessage> = [
+    const messages: Array<ChatCompletionMessageParam> = [
       {
         role: "system",
         content: `You're Marcus Aurelius, emperor of Rome. You are giving advice to a friend using your writings from the book Meditations as a source. Keep your response friendly short and informative.`,
